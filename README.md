@@ -1,164 +1,103 @@
-# FnOS Skill for opencode
+# fnos-opencode-skill
 
-这个 skill 为在飞牛NAS上运行的 opencode 提供系统管理、Docker操作、存储管理和故障排除指导。
+> 飞牛 NAS (FnOS) 专用 opencode skill，在代码编写之外还能完成飞牛系统管理操作。
+
+[![GitHub](https://img.shields.io/badge/GitHub-fnos--opencode--skill-blue)](https://github.com/EuphonXD/fnos-opencode-skill)
+
+## 简介
+
+这是一个为在飞牛 NAS 上部署的 [opencode](https://opencode.ai) 设计的 skill，让 AI 编程助手在写代码之外还能完成飞牛 NAS 的系统管理、Docker 操作、存储管理、网络配置等任务。
 
 ## 安装
 
-skill 已安装在以下位置：
-```
-~/.config/opencode/skills/fnos/SKILL.md
-```
+### 方法一：Git 克隆
 
-## 使用方法
-
-### 自动加载
-skill 会在以下情况自动加载：
-- 执行飞牛NAS相关操作时
-- 处理Docker容器管理时
-- 进行存储卷操作时
-- 配置网络和服务时
-- 排查系统问题时
-
-### 手动加载
-在 opencode 中，可以使用以下命令手动加载skill：
-```
-使用 fnos skill
-```
-
-## 主要功能
-
-### 1. 系统信息查询
 ```bash
-# 获取飞牛版本信息
-cat /etc/fnos-version
-
-# 检查系统资源
-df -h
-free -h
+git clone https://github.com/EuphonXD/fnos-opencode-skill.git
+mkdir -p ~/.config/opencode/skills/fnos
+cp -r fnos-opencode-skill/* ~/.config/opencode/skills/fnos/
 ```
 
-### 2. Docker容器管理
-```bash
-# 列出容器
-docker ps
+### 方法二：手动下载
 
-# 管理容器
-docker start/stop/restart <container>
-```
+1. 下载仓库 ZIP：https://github.com/EuphonXD/fnos-opencode-skill/archive/refs/heads/main.zip
+2. 解压后复制所有文件到 `~/.config/opencode/skills/fnos/`
 
-### 3. 存储管理
-```bash
-# 检查存储空间
-df -h
-du -sh /vol*/*
+### 安装后
 
-# 管理卷
-ls -la /vol1/
-```
+重启 opencode 使 skill 生效。
 
-### 4. 网络配置
-```bash
-# 检查网络
-ip addr show
-netstat -tuln
-```
+## 功能
+
+| 模块 | 说明 |
+|------|------|
+| 系统管理 | 飞牛系统信息查询、服务管理、用户管理 |
+| Docker 管理 | 容器增删改查、镜像管理、日志查看 |
+| 存储管理 | 磁盘/卷/目录操作、权限管理、备份 |
+| 网络配置 | 网络接口、防火墙、端口管理 |
+| 故障排除 | 常见问题诊断、日志分析、恢复操作 |
 
 ## 可信来源
 
-执行飞牛操作时，请优先参考：
+执行飞牛操作时，skill 会优先参考以下渠道：
 
-1. **飞牛开发者开放平台 (FNOSP)**
-   - https://github.com/FNOSP
-   - 用途：API文档、开发者指南
+1. **[飞牛开发者开放平台](https://github.com/FNOSP)** — API 文档、开发者指南
+2. **[飞牛帮助中心](https://help.fnnas.com/)** — 官方文档、功能说明
+3. **[飞牛社区论坛](https://club.fnnas.com/)** — 社区方案、故障排除
 
-2. **飞牛帮助中心**
-   - https://help.fnnas.com/
-   - 用途：官方文档、功能指南
+## 使用示例
 
-3. **飞牛社区论坛**
-   - https://club.fnnas.com/
-   - 用途：故障排除、社区解决方案
+在 opencode 中直接描述你的需求，skill 会自动介入：
 
-### 搜索文档
-```bash
-# 官方文档搜索
-https://help.fnnas.com/?search=关键词
-
-# 社区搜索
-https://club.fnnas.com/search.php?mod=forum&searchid=65&orderby=lastpost&ascdesc=desc&searchsubmit=yes&kw=关键词
+```
+> 帮我检查飞牛NAS上的Docker容器都在正常运行吗
+> 在 /vol1/docker 下创建一个新项目的目录并设置权限
+> 排查一下为什么容器 A 的端口映射不生效
 ```
 
-## 最佳实践
+## 文件结构
 
-### 安全性
-1. 定期更新系统和Docker镜像
-2. 使用强密码和密钥认证
-3. 配置防火墙规则
-4. 启用数据加密
-
-### 性能优化
-1. 设置容器资源限制
-2. 使用SSD存储
-3. 监控系统资源
-4. 优化网络配置
-
-### 开发流程
-1. 在开发环境测试
-2. 使用版本控制
-3. 编写测试用例
-4. 文档化配置
-
-## 故障排除
-
-### 常见问题
-1. **容器无法启动**
-   - 检查日志：`docker logs <container>`
-   - 验证卷挂载
-
-2. **存储权限问题**
-   - 检查用户/组映射
-   - 验证文件权限
-
-3. **网络连接问题**
-   - 检查网络配置
-   - 验证端口映射
-
-### 获取帮助
-1. 搜索官方文档
-2. 查阅社区论坛
-3. 检查FNOSP GitHub
-
-## 配置
-
-### 自定义skill路径
-如果需要将skill放在其他位置，可以在 opencode.json 中配置：
-```json
-{
-  "skills": {
-    "paths": ["~/.config/opencode/skills"]
-  }
-}
 ```
-
-### 禁用skill
-如果需要禁用此skill，可以重命名或删除：
-```
-~/.config/opencode/skills/fnos/SKILL.md
+fnos/
+├── SKILL.md      # opencode 使用的 skill 指令文件
+├── README.md     # 本文件（给人看的说明）
+├── INSTALL.md    # 详细安装说明
+├── SUMMARY.md    # 功能总结
+├── test.sh       # Linux/macOS 测试脚本
+├── test.ps1      # Windows 测试脚本
+└── .gitignore
 ```
 
 ## 更新
 
-要更新skill，编辑以下文件：
-```
-~/.config/opencode/skills/fnos/SKILL.md
+```bash
+cd ~/.config/opencode/skills/fnos/
+git pull origin main
 ```
 
-更新后需要重启opencode使更改生效。
+更新后重启 opencode。
+
+## 卸载
+
+```bash
+rm -rf ~/.config/opencode/skills/fnos
+```
 
 ## 贡献
 
-要改进此skill：
-1. 参考官方文档验证信息
-2. 在安全环境中测试命令
-3. 文档化飞牛特定考虑
-4. 包含故障排除提示
+1. Fork 本仓库
+2. 创建分支：`git checkout -b feature/xxx`
+3. 提交更改：`git commit -m 'Add xxx'`
+4. 推送分支：`git push origin feature/xxx`
+5. 创建 Pull Request
+
+## 参考
+
+- [Superpowers 框架](https://github.com/obra/superpowers) — skill 设计参考
+- [飞牛开发者平台](https://github.com/FNOSP)
+- [飞牛帮助中心](https://help.fnnas.com/)
+- [飞牛社区](https://club.fnnas.com/)
+
+## License
+
+MIT
